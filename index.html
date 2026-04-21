@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hol's der Geier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #07070C;
+    --bg-secondary: #0D0D18;
+    --bg-tertiary: #141428;
+    --bg-elevated: #1C1C38;
+    --text-primary: #F0EEFF;
+    --text-secondary: #6868A0;
+    --text-tertiary: #35355A;
+    --accent: #FFD600;
+    --accent-hover: #FFE44D;
+    --green: #00E87D;
+    --red: #FF4545;
+    --orange: #FF7A00;
+    --yellow: #FFD600;
+    --purple: #B46EFF;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.13);
+    --card-shadow: 0 8px 48px rgba(0,0,0,0.85);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.18s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtle dot-grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 70% 50% at 10% 10%, rgba(255,214,0,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 85%, rgba(180,110,255,0.05) 0%, transparent 55%);
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 20px;
+  }
+
+  header {
+    text-align: center;
+    padding: 52px 0 40px;
+  }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    color: var(--text-secondary);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  /* ── Panels ── */
+  .panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 14px;
+    box-shadow: var(--card-shadow);
+  }
+  .panel h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    margin-bottom: 22px;
+    color: var(--text-primary);
+  }
+  .panel h3 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 26px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.2px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255,214,0,0.28);
+  }
+  .btn-primary:active { transform: translateY(0); box-shadow: none; }
+  .btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--bg-elevated); border-color: rgba(255,255,255,0.2); }
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border: 1px solid rgba(255,69,69,0.22);
+  }
+  .btn-danger:hover { background: rgba(255,69,69,0.09); border-color: rgba(255,69,69,0.38); }
+  .btn:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ── Form Controls ── */
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 18px;
+  }
+  .form-row label {
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 160px;
+    color: var(--text-primary);
+  }
+  .stepper {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    overflow: hidden;
+  }
+  .stepper button {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .stepper button:hover { background: rgba(255,214,0,0.09); }
+  .stepper button:disabled { color: var(--text-tertiary); cursor: not-allowed; }
+  .stepper span {
+    width: 52px;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    line-height: 44px;
+  }
+
+  select {
+    appearance: none;
+    background: var(--bg-tertiary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236868A0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 10px 36px 10px 14px;
+    cursor: pointer;
+    transition: border-color var(--transition);
+  }
+  select:hover { border-color: var(--accent); }
+  select option { background: var(--bg-tertiary); }
+
+  /* ── Bot Strategy List ── */
+  .bot-config-list { display: flex; flex-direction: column; gap: 8px; }
+  .bot-config-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .bot-config-item .bot-label {
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 60px;
+  }
+
+  /* ── Cards ── */
+  .hand-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .card {
+    width: 52px;
+    height: 74px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all var(--transition);
+    border: 1px solid var(--border-strong);
+    background: var(--bg-tertiary);
+    user-select: none;
+  }
+  .card:hover:not(.card-disabled) {
+    transform: translateY(-9px);
+    border-color: var(--accent);
+    background: var(--bg-elevated);
+    box-shadow: 0 10px 28px rgba(255,214,0,0.18);
+    color: var(--accent);
+  }
+  .card.card-selected {
+    border-color: var(--accent);
+    background: rgba(255,214,0,0.10);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 32px rgba(255,214,0,0.26);
+    color: var(--accent);
+  }
+  .card-disabled {
+    opacity: 0.22;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .value-card {
+    width: 90px;
+    height: 122px;
+    border-radius: var(--radius);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 50px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    border: 2px solid;
+  }
+  .value-card.positive {
+    background: rgba(0,232,125,0.07);
+    border-color: rgba(0,232,125,0.28);
+    color: var(--green);
+  }
+  .value-card.negative {
+    background: rgba(255,69,69,0.07);
+    border-color: rgba(255,69,69,0.28);
+    color: var(--red);
+  }
+
+  /* ── Table ── */
+  .scoreboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+  }
+  .scoreboard-table th, .scoreboard-table td {
+    padding: 11px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .scoreboard-table th {
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .scoreboard-table td { font-variant-numeric: tabular-nums; }
+  .scoreboard-table tr:last-child td { border-bottom: none; }
+  .scoreboard-table .winner { color: var(--accent); font-weight: 600; }
+
+  /* ── Round Result Overlay ── */
+  .round-result {
+    text-align: center;
+    padding: 24px;
+    margin: 14px 0;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    animation: fadeSlideIn 0.28s ease-out;
+  }
+  .round-result .plays-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .round-result .play-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .round-result .play-item .player-name {
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .round-result .play-item .played-card {
+    width: 52px;
+    height: 72px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-strong);
+  }
+  .round-result .play-item.is-winner .played-card {
+    border-color: var(--accent);
+    background: rgba(255,214,0,0.10);
+    color: var(--accent);
+  }
+  .round-result .play-item.is-eliminated .played-card {
+    opacity: 0.28;
+  }
+  .result-text {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .result-text.win { color: var(--green); }
+  .result-text.carry { color: var(--orange); }
+
+  /* ── Points Bar ── */
+  .points-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 12px 0;
+  }
+  .point-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .point-chip .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Game Over ── */
+  .game-over-panel { text-align: center; }
+  .game-over-panel h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    margin-bottom: 6px;
+  }
+  .final-standings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 28px 0;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .standing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .standing-row.rank-1 {
+    border-color: rgba(255,214,0,0.38);
+    background: rgba(255,214,0,0.06);
+  }
+  .standing-rank {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    width: 40px;
+    color: var(--text-tertiary);
+  }
+  .standing-row.rank-1 .standing-rank { color: var(--yellow); }
+  .standing-name { flex: 1; font-weight: 600; font-size: 15px; }
+  .standing-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Scoreboard History ── */
+  .history-empty {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Screen visibility ── */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.25s ease-out; }
+
+  /* ── Player turn overlay ── */
+  .turn-overlay {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .turn-overlay h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .turn-overlay p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  /* ── Info bar ── */
+  .info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+  }
+  .info-bar .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .info-bar .info-label {
+    color: var(--text-secondary);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+  .info-bar .info-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  /* ── Misc ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+  .text-center { text-align: center; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mb-12 { margin-bottom: 12px; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    header h1 { font-size: 54px; }
+    .panel { padding: 20px; }
+    .form-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .form-row label { min-width: auto; }
+    .card { width: 44px; height: 62px; font-size: 22px; }
+    .value-card { width: 74px; height: 100px; font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>HOL'S DER <span>GEIER</span></h1>
+    <p>The Card Game</p>
+  </header>
+
+  <!-- ═══════════ SETUP SCREEN ═══════════ -->
+  <div id="screen-setup" class="screen active">
+    <div class="panel">
+      <h2>Game Setup</h2>
+
+      <div class="form-row">
+        <label>Human Players</label>
+        <div class="stepper">
+          <button onclick="adjustPlayers(-1)">−</button>
+          <span id="num-humans">1</span>
+          <button onclick="adjustPlayers(1)">+</button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Bots</label>
+        <div class="stepper">
+          <button onclick="adjustBots(-1)">−</button>
+          <span id="num-bots">1</span>
+          <button onclick="adjustBots(1)">+</button>
+        </div>
+      </div>
+
+      <div id="player-total" style="font-size:13px; color:var(--text-secondary); margin-bottom:20px; letter-spacing:0.5px;">
+        Total: 2 players
+      </div>
+
+      <div id="bot-config-section" style="margin-bottom:16px;">
+        <p style="font-size:13px; color:var(--text-tertiary);">Each bot will choose its own strategy — revealed after the game.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div id="human-names-section">
+        <h3>Player Names</h3>
+        <div id="human-names-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;"></div>
+      </div>
+
+      <div class="text-center mt-16">
+        <button class="btn btn-primary" onclick="startGame()" id="btn-start">Start Game</button>
+      </div>
+    </div>
+
+    <!-- Scoreboard History -->
+    <div class="panel" id="panel-history">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 style="margin-bottom:0;">Scoreboard</h2>
+        <button class="btn btn-danger" onclick="clearHistory()" style="padding:8px 16px; font-size:13px;">Clear</button>
+      </div>
+      <div id="history-content">
+        <div class="history-empty">No games played yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ GAME SCREEN ═══════════ -->
+  <div id="screen-game" class="screen">
+    <div class="info-bar">
+      <div class="info-item">
+        <span class="info-label">Round</span>
+        <span class="info-value" id="round-num">1</span>
+        <span class="info-label" style="margin-left:2px;">/ <span id="round-total">15</span></span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Cards left</span>
+        <span class="info-value" id="cards-left">15</span>
+      </div>
+    </div>
+
+    <!-- Points bar -->
+    <div class="points-bar" id="points-bar"></div>
+
+    <!-- Value card display -->
+    <div class="panel text-center" id="game-area">
+      <h3 class="mb-12">Value Card</h3>
+      <div id="value-card-display" class="value-card positive">+10</div>
+
+      <!-- Turn content (swapped per player/phase) -->
+      <div id="turn-content"></div>
+    </div>
+
+    <!-- Round result -->
+    <div id="round-result-area"></div>
+  </div>
+
+  <!-- ═══════════ GAME OVER SCREEN ═══════════ -->
+  <div id="screen-gameover" class="screen">
+    <div class="panel game-over-panel">
+      <h2>Game Over</h2>
+      <p style="color:var(--text-secondary); font-size:16px; margin-bottom:8px;" id="gameover-subtitle"></p>
+      <div class="final-standings" id="final-standings"></div>
+      <div class="mt-16 text-center">
+        <button class="btn btn-secondary" onclick="toggleStrategies()" id="btn-reveal" style="font-size:13px; padding:10px 20px;">
+          Reveal Bot Strategies
+        </button>
+        <div id="strategy-reveal" style="display:none; margin-top:16px;">
+          <div class="bot-config-list" id="strategy-reveal-list" style="max-width:340px; margin:0 auto;"></div>
+        </div>
+      </div>
+      <div class="btn-group mt-24" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="startGame()">Play Again</button>
+        <button class="btn btn-secondary" onclick="backToSetup()">Change Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  GAME STATE
+// ═══════════════════════════════════════════
+const PLAYER_COLORS = ['#4DC8FF','#FFD600','#00E87D','#FF4545','#B46EFF','#FF8C00','#FF4DC8','#00D4E8'];
+const STRATEGY_NAMES = {
+  random: 'Random',
+  negative: 'Negative',
+  highCards: 'High Cards',
+  schonen: 'Schonen',
+  interval: 'Interval',
+  memoryHigh: 'Memory High',
+};
+
+let config = {
+  numHumans: 1,
+  numBots: 1,
+  humanNames: ['Player 1'],
+};
+
+let game = null; // active game state
+let history = JSON.parse(localStorage.getItem('hdg_history') || '[]');
+
+// ═══════════════════════════════════════════
+//  SETUP UI
+// ═══════════════════════════════════════════
+function adjustPlayers(d) {
+  config.numHumans = Math.max(0, Math.min(4, config.numHumans + d));
+  if (totalPlayers() < 2) config.numHumans = Math.max(config.numHumans, 2 - config.numBots);
+  if (totalPlayers() > 6) config.numHumans = 6 - config.numBots;
+  document.getElementById('num-humans').textContent = config.numHumans;
+  syncSetupUI();
+}
+function adjustBots(d) {
+  config.numBots = Math.max(0, Math.min(6, config.numBots + d));
+  if (totalPlayers() < 2) config.numBots = Math.max(config.numBots, 2 - config.numHumans);
+  if (totalPlayers() > 6) config.numBots = 6 - config.numHumans;
+  document.getElementById('num-bots').textContent = config.numBots;
+  syncSetupUI();
+}
+function totalPlayers() { return config.numHumans + config.numBots; }
+
+function syncSetupUI() {
+  document.getElementById('player-total').textContent = `Total: ${totalPlayers()} players`;
+  // Human names
+  const namesList = document.getElementById('human-names-list');
+  config.humanNames = config.humanNames.slice(0, config.numHumans);
+  while (config.humanNames.length < config.numHumans) config.humanNames.push(`Player ${config.humanNames.length + 1}`);
+  namesList.innerHTML = config.humanNames.map((n, i) => `
+    <input type="text" value="${n}" onchange="config.humanNames[${i}]=this.value"
+      style="background:var(--bg-tertiary); border:1px solid var(--border-strong); border-radius:var(--radius-sm);
+      color:var(--text-primary); font-size:14px; padding:10px 14px; font-family:'DM Sans',sans-serif; width:220px;
+      outline:none; transition:border-color 0.18s;"
+      onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
+  `).join('');
+  document.getElementById('human-names-section').style.display = config.numHumans > 0 ? 'block' : 'none';
+
+  document.getElementById('bot-config-section').style.display = config.numBots > 0 ? 'block' : 'none';
+
+  // Stepper bounds
+  const stepBtns = document.querySelectorAll('.stepper button');
+  // Humans −/+
+  stepBtns[0].disabled = config.numHumans <= 0 || (config.numHumans <= 1 && config.numBots < 1) || (totalPlayers() <= 2 && config.numHumans <= config.numBots);
+  stepBtns[1].disabled = config.numHumans >= 4 || totalPlayers() >= 6;
+  // Bots −/+
+  stepBtns[2].disabled = config.numBots <= 0 || totalPlayers() <= 2;
+  stepBtns[3].disabled = config.numBots >= 6 || totalPlayers() >= 6;
+
+  document.getElementById('btn-start').disabled = totalPlayers() < 2;
+  renderHistory();
+}
+
+// ═══════════════════════════════════════════
+//  GAME ENGINE (mirrors engine.py)
+// ═══════════════════════════════════════════
+function roundEngine(valueCards, play, points) {
+  valueCards = [...valueCards];
+  play = [...play];
+  const nPlayers = play.length;
+  const vc = valueCards[0];
+
+  if (vc >= 0) {
+    // Highest unique wins
+    while (true) {
+      const maxVal = Math.max(...play);
+      if (maxVal <= 0) break;
+      const count = play.filter(v => v === maxVal).length;
+      if (count === 1) break;
+      play = play.map(v => v === maxVal ? 0 : v);
+    }
+    const maxVal = Math.max(...play);
+    if (maxVal > 0) {
+      const winner = play.indexOf(maxVal);
+      points[winner] += vc;
+      valueCards.shift();
+    } else {
+      valueCards.shift();
+      if (valueCards.length > 0) valueCards[0] += vc;
+    }
+  } else {
+    // Lowest unique wins (ties removed iteratively among remaining players)
+    while (true) {
+      const alive = play.filter(v => v > 0);
+      if (alive.length === 0) break;
+      const minVal = Math.min(...alive);
+      const count = play.filter(v => v === minVal).length;
+      if (count === 1) break;
+      play = play.map(v => v === minVal ? 0 : v);
+    }
+    const alive = play.filter(v => v > 0);
+    if (alive.length > 0) {
+      const minVal = Math.min(...alive);
+      const winner = play.indexOf(minVal);
+      points[winner] += vc;
+      valueCards.shift();
+    } else {
+      valueCards.shift();
+      if (valueCards.length > 0) valueCards[0] += vc;
+    }
+  }
+
+  return { valueCards, points, resolvedPlay: play };
+}
+
+// ═══════════════════════════════════════════
+//  BOT STRATEGIES (mirrors strategy.py)
+// ═══════════════════════════════════════════
+function randChoice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+const botStrategies = {
+  random(playerIdx, hands, valueCard, valueCardsRemaining) {
+    return randChoice(hands[playerIdx]);
+  },
+  negative(playerIdx, hands, valueCard, valueCardsRemaining) {
+    const hand = hands[playerIdx];
+    const negMap = { '-1': 4, '-2': 6, '-3': 8, '-4': 9, '-5': 10 };
+    const mapped = negMap[String(valueCard)];
+    if (mapped !== undefined && hand.includes(mapped)) return mapped;
+    return randChoice(hand);
+  },
+  highCards(playerIdx, hands, valueCard, valueCardsRemaining) {
+    const hand = hands[playerIdx];
+    const posRemaining = valueCardsRemaining.filter(v => v > 0);
+    if (posRemaining.length > 0) {
+      const highest = Math.max(...posRemaining);
+      if (valueCard === highest) return Math.max(...hand);
+    }
+    return randChoice(hand);
+  },
+  schonen(playerIdx, hands, valueCard, valueCardsRemaining) {
+    const hand = hands[playerIdx];
+    const highMap = { 10: 15, 9: 14, 8: 13, 7: 12 };
+    if (highMap[valueCard] !== undefined && hand.includes(highMap[valueCard])) return highMap[valueCard];
+    const reserved = new Set();
+    for (const [target, card] of Object.entries(highMap)) {
+      if (valueCardsRemaining.includes(Number(target)) && hand.includes(card)) reserved.add(card);
+    }
+    const playable = hand.filter(c => !reserved.has(c));
+    return playable.length > 0 ? randChoice(playable) : randChoice(hand);
+  },
+  interval(playerIdx, hands, valueCard, valueCardsRemaining) {
+    const hand = hands[playerIdx];
+    const intervalMap = {};
+    for (let i = 6; i <= 10; i++) intervalMap[i] = [11, 15];
+    for (let i = 1; i <= 5; i++) intervalMap[i] = [1, 5];
+    for (let i = -5; i <= -1; i++) intervalMap[i] = [6, 10];
+    const range = intervalMap[valueCard];
+    if (range) {
+      const candidates = hand.filter(c => c >= range[0] && c <= range[1]);
+      if (candidates.length > 0) return randChoice(candidates);
+    }
+    return randChoice(hand);
+  },
+  memoryHigh(playerIdx, hands, valueCard, valueCardsRemaining) {
+    const hand = hands[playerIdx];
+    const myHighest = Math.max(...hand);
+    const oppCards = [];
+    hands.forEach((h, j) => { if (j !== playerIdx) oppCards.push(...h); });
+    const oppHighest = oppCards.length > 0 ? Math.max(...oppCards) : -Infinity;
+    const hasUniqueHighest = myHighest > oppHighest;
+    const posRemaining = valueCardsRemaining.filter(v => v > 0);
+    const highestPos = posRemaining.length > 0 ? Math.max(...posRemaining) : null;
+    if (hasUniqueHighest && highestPos !== null && valueCard === highestPos) return myHighest;
+    return randChoice(hand);
+  },
+};
+
+// ═══════════════════════════════════════════
+//  GAME FLOW
+// ═══════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+  const n = totalPlayers();
+  let valueCards = [];
+  for (let i = -5; i <= 10; i++) { if (i !== 0) valueCards.push(i); }
+  shuffle(valueCards);
+
+  let hands = [];
+  for (let i = 0; i < n; i++) hands.push(Array.from({ length: 15 }, (_, k) => k + 1));
+
+  // 2-player rule: remove 3 random value cards and 3 hand cards per player
+  if (n === 2) {
+    const removeIdx = [];
+    while (removeIdx.length < 3) {
+      const idx = Math.floor(Math.random() * valueCards.length);
+      if (!removeIdx.includes(idx)) removeIdx.push(idx);
+    }
+    removeIdx.sort((a, b) => b - a);
+    removeIdx.forEach(idx => valueCards.splice(idx, 1));
+    for (let i = 0; i < n; i++) {
+      for (let r = 0; r < 3; r++) {
+        const ri = Math.floor(Math.random() * hands[i].length);
+        hands[i].splice(ri, 1);
+      }
+    }
+  }
+
+  // Build player info
+  const players = [];
+  for (let i = 0; i < config.numHumans; i++) {
+    players.push({ type: 'human', name: config.humanNames[i] || `Player ${i+1}`, color: PLAYER_COLORS[i] });
+  }
+  const stratKeys = Object.keys(STRATEGY_NAMES);
+  for (let i = 0; i < config.numBots; i++) {
+    const strat = randChoice(stratKeys);
+    players.push({
+      type: 'bot',
+      name: `Bot ${i+1}`,
+      strategy: strat,
+      color: PLAYER_COLORS[config.numHumans + i],
+    });
+  }
+
+  game = {
+    players,
+    valueCards,
+    hands,
+    points: new Array(n).fill(0),
+    round: 1,
+    totalRounds: valueCards.length,
+    currentHumanTurn: 0, // which human is picking (within the round)
+    roundPlays: new Array(n).fill(null),
+    phase: 'pick', // 'pick' | 'result' | 'done'
+    readyConfirmed: false,
+    carryOverCards: [], // tracks individual value cards that carried over
+  };
+
+  showScreen('screen-game');
+  renderGame();
+}
+
+function renderGame() {
+  const g = game;
+  const n = g.players.length;
+
+  document.getElementById('round-num').textContent = g.round;
+  document.getElementById('round-total').textContent = g.totalRounds;
+  document.getElementById('cards-left').textContent = g.valueCards.length;
+
+  // Points bar
+  const pb = document.getElementById('points-bar');
+  pb.innerHTML = g.players.map((p, i) => `
+    <div class="point-chip">
+      <span class="dot" style="background:${p.color}"></span>
+      <span>${p.name}</span>
+      <span style="color:${g.points[i] >= 0 ? 'var(--green)' : 'var(--red)'}">${g.points[i] >= 0 ? '+' : ''}${g.points[i]}</span>
+    </div>
+  `).join('');
+
+  // Value card display — show individual carried-over cards if any
+  const vcContainer = document.getElementById('value-card-display');
+  // During result phase, use the snapshot; during pick, use live carry-over
+  const carried = g.phase === 'result' ? (g.roundCarryDisplay || []) : g.carryOverCards;
+  const vc = g.phase === 'result'
+    ? (carried.length > 0 ? carried.reduce((a, b) => a + b, 0) : g.valueCards[0])
+    : g.valueCards[0];
+
+  if (carried.length > 1) {
+    // Multiple cards accumulated — show each one + the sum
+    vcContainer.className = '';
+    vcContainer.style.cssText = 'display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin:0 auto 24px;';
+    const cardStyle = 'width:64px;height:88px;font-size:30px;display:inline-flex;';
+    const sym = '<span style="font-size:20px;font-weight:700;color:var(--text-tertiary)">+</span>';
+    vcContainer.innerHTML = carried.map(c => {
+      const cls = c >= 0 ? 'positive' : 'negative';
+      return `<div class="value-card ${cls}" style="${cardStyle}">${c >= 0 ? '+' : ''}${c}</div>`;
+    }).join(sym)
+    + `<span style="font-size:20px;font-weight:700;color:var(--text-tertiary)">=</span>`
+    + `<div class="value-card ${vc >= 0 ? 'positive' : 'negative'}" style="${cardStyle}font-size:34px;">${vc >= 0 ? '+' : ''}${vc}</div>`;
+  } else {
+    // Single card — normal display
+    vcContainer.className = `value-card ${vc >= 0 ? 'positive' : 'negative'}`;
+    vcContainer.style.cssText = '';
+    vcContainer.innerHTML = '';
+    vcContainer.textContent = (vc >= 0 ? '+' : '') + vc;
+  }
+
+  const turnContent = document.getElementById('turn-content');
+  const resultArea = document.getElementById('round-result-area');
+
+  if (g.phase === 'pick') {
+    resultArea.innerHTML = '';
+    // Find next human who needs to pick
+    const humanIndices = g.players.map((p, i) => p.type === 'human' ? i : -1).filter(i => i >= 0);
+    const nextHuman = humanIndices.find(i => g.roundPlays[i] === null);
+
+    if (nextHuman !== undefined) {
+      const p = g.players[nextHuman];
+      const hand = g.hands[nextHuman];
+      const isMultiHuman = config.numHumans > 1;
+
+      // Pass-and-play: show "ready" screen before revealing hand
+      if (isMultiHuman && !g.readyConfirmed) {
+        turnContent.innerHTML = `
+          <div class="turn-overlay">
+            <h3 style="color:${p.color}">${p.name}'s Turn</h3>
+            <p>Pass the device — only ${p.name} should look!</p>
+            <div class="mt-16">
+              <button class="btn btn-primary" onclick="confirmReady()">I'm Ready</button>
+            </div>
+          </div>
+        `;
+      } else {
+        turnContent.innerHTML = `
+          <div class="turn-overlay">
+            <h3 style="color:${p.color}">${p.name}</h3>
+            <p>${isMultiHuman ? 'Select your card (don\'t let others see!)' : 'Select a card to play'}</p>
+            <p style="font-size:12px; color:var(--text-tertiary); letter-spacing:0.5px;">
+              ${vc >= 0 ? 'Highest unique card wins' : 'Lowest unique card wins'}
+            </p>
+            <div class="hand-cards" id="hand-cards">
+              ${hand.map(c => `<div class="card" onclick="pickCard(${nextHuman}, ${c})">${c}</div>`).join('')}
+            </div>
+            ${g.roundPlays.filter(v => v !== null).length > 0 ? `<p style="font-size:12px; color:var(--text-tertiary); margin-top:8px;">${g.roundPlays.filter(v => v !== null).length} player(s) have already played</p>` : ''}
+          </div>
+        `;
+      }
+    } else {
+      // All humans picked, bots play, resolve
+      resolveRound();
+    }
+  } else if (g.phase === 'result') {
+    // Show round result
+    renderRoundResult();
+  }
+}
+
+function confirmReady() {
+  game.readyConfirmed = true;
+  renderGame();
+}
+
+function pickCard(playerIdx, card) {
+  if (game.roundPlays[playerIdx] !== null) return;
+  game.roundPlays[playerIdx] = card;
+  game.hands[playerIdx] = game.hands[playerIdx].filter(c => c !== card);
+  game.readyConfirmed = false; // reset for next player
+
+  // Check if all humans have picked
+  const humanIndices = game.players.map((p, i) => p.type === 'human' ? i : -1).filter(i => i >= 0);
+  const allHumansPicked = humanIndices.every(i => game.roundPlays[i] !== null);
+
+  if (allHumansPicked) {
+    resolveRound();
+  } else {
+    renderGame();
+  }
+}
+
+function resolveRound() {
+  const g = game;
+  // Bots play
+  g.players.forEach((p, i) => {
+    if (p.type === 'bot' && g.roundPlays[i] === null) {
+      const strat = botStrategies[p.strategy];
+      // Deep copy hands for bot strategy (they may inspect opponents' hands)
+      const handsCopy = g.hands.map(h => [...h]);
+      const choice = strat(i, handsCopy, g.valueCards[0], [...g.valueCards]);
+      g.roundPlays[i] = choice;
+      g.hands[i] = g.hands[i].filter(c => c !== choice);
+    }
+  });
+
+  // Track the original value card for this round (before carry-over sum)
+  // carryOverCards accumulates the individual cards across tied rounds
+  const rawVC = g.valueCards[0];
+  // The very first card this round contributes is the raw value MINUS prior carry sum
+  // Actually: carryOverCards tracks what we've seen. On first round of a pot it's empty.
+  // The engine sums carry-overs into valueCards[0], but we want the individual card.
+  if (g.carryOverCards.length === 0) {
+    // First round (no prior carry) — the value card is just itself
+    g.carryOverCards.push(rawVC);
+  } else {
+    // There's already a carry-over pot. rawVC = sum of prior cards + this new card.
+    // The new card = rawVC - sum of prior cards
+    const priorSum = g.carryOverCards.reduce((a, b) => a + b, 0);
+    g.carryOverCards.push(rawVC - priorSum);
+  }
+  // Save for result display
+  g.roundCarryDisplay = [...g.carryOverCards];
+
+  // Run engine
+  const pointsBefore = [...g.points];
+  const result = roundEngine(g.valueCards, g.roundPlays, [...g.points]);
+  g.valueCards = result.valueCards;
+  g.points = result.points;
+  g.resolvedPlay = result.resolvedPlay;
+  g.pointsBefore = pointsBefore;
+
+  // If someone won, the carry-over pot is claimed — reset for next round
+  const delta = g.points.map((p, i) => p - pointsBefore[i]);
+  if (delta.some(d => d !== 0)) {
+    g.carryOverCards = [];
+  }
+  // If carry-over: carryOverCards stays populated for next round's display
+
+  g.phase = 'result';
+  renderGame();
+}
+
+function renderRoundResult() {
+  const g = game;
+  const vc = g.pointsBefore !== undefined ? g.roundPlays : [];
+  const delta = g.points.map((p, i) => p - g.pointsBefore[i]);
+  const winnerIdx = delta.findIndex(d => d !== 0);
+
+  const turnContent = document.getElementById('turn-content');
+  turnContent.innerHTML = '';
+
+  const resultArea = document.getElementById('round-result-area');
+  resultArea.innerHTML = `
+    <div class="round-result">
+      <div class="plays-list">
+        ${g.players.map((p, i) => {
+          const isWinner = i === winnerIdx;
+          const isEliminated = g.resolvedPlay[i] === 0 && !isWinner;
+          return `
+            <div class="play-item ${isWinner ? 'is-winner' : ''} ${isEliminated ? 'is-eliminated' : ''}">
+              <span class="player-name" style="color:${p.color}">${p.name}</span>
+              <div class="played-card">${g.roundPlays[i]}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div class="result-text ${winnerIdx >= 0 ? 'win' : 'carry'}">
+        ${winnerIdx >= 0
+          ? `${g.players[winnerIdx].name} wins ${delta[winnerIdx] >= 0 ? '+' : ''}${delta[winnerIdx]} points!`
+          : `No unique winner — value carries over!${g.carryOverCards.length > 1
+              ? ` (${g.carryOverCards.length} cards in pot)`
+              : ''}`
+        }
+      </div>
+      <div class="mt-16">
+        <button class="btn btn-primary" onclick="nextRound()">
+          ${g.valueCards.length > 0 && g.hands.some(h => h.length > 0) ? 'Next Round' : 'See Results'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function nextRound() {
+  const g = game;
+  if (g.valueCards.length === 0 || !g.hands.some(h => h.length > 0)) {
+    endGame();
+    return;
+  }
+  g.round++;
+  g.roundPlays = new Array(g.players.length).fill(null);
+  g.resolvedPlay = null;
+  g.pointsBefore = null;
+  g.phase = 'pick';
+  g.readyConfirmed = false;
+  g.roundCarryDisplay = null;
+  renderGame();
+}
+
+function endGame() {
+  const g = game;
+  // Sort players by points descending
+  const standings = g.players.map((p, i) => ({ ...p, score: g.points[i], idx: i }));
+  standings.sort((a, b) => b.score - a.score);
+
+  // Assign ranks
+  let rank = 1;
+  standings.forEach((s, i) => {
+    if (i > 0 && s.score < standings[i - 1].score) rank = i + 1;
+    s.rank = rank;
+  });
+
+  const container = document.getElementById('final-standings');
+  container.innerHTML = standings.map(s => `
+    <div class="standing-row ${s.rank === 1 ? 'rank-1' : ''}">
+      <span class="standing-rank">#${s.rank}</span>
+      <span class="standing-name" style="color:${s.color}">${s.name}</span>
+      <span class="standing-score" style="color:${s.score >= 0 ? 'var(--green)' : 'var(--red)'}">${s.score >= 0 ? '+' : ''}${s.score}</span>
+    </div>
+  `).join('');
+
+  const winner = standings[0];
+  document.getElementById('gameover-subtitle').textContent =
+    standings.filter(s => s.rank === 1).length > 1
+      ? 'It\'s a tie!'
+      : `${winner.name} wins!`;
+
+  // Save to history
+  const entry = {
+    date: new Date().toISOString(),
+    players: g.players.map((p, i) => ({ name: p.name, type: p.type, strategy: p.strategy || null, score: g.points[i] })),
+    winner: standings.filter(s => s.rank === 1).map(s => s.name).join(', '),
+  };
+  history.unshift(entry);
+  if (history.length > 50) history = history.slice(0, 50);
+  localStorage.setItem('hdg_history', JSON.stringify(history));
+
+  // Populate strategy reveal (hidden by default)
+  const revealList = document.getElementById('strategy-reveal-list');
+  const bots = g.players.filter(p => p.type === 'bot');
+  revealList.innerHTML = bots.map(b => `
+    <div class="bot-config-item">
+      <span class="bot-label" style="color:${b.color}">${b.name}</span>
+      <span style="color:var(--text-primary); font-weight:500;">${STRATEGY_NAMES[b.strategy]}</span>
+    </div>
+  `).join('');
+  document.getElementById('strategy-reveal').style.display = 'none';
+  document.getElementById('btn-reveal').textContent = 'Reveal Bot Strategies';
+
+  showScreen('screen-gameover');
+}
+
+function toggleStrategies() {
+  const el = document.getElementById('strategy-reveal');
+  const btn = document.getElementById('btn-reveal');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    btn.textContent = 'Hide Bot Strategies';
+  } else {
+    el.style.display = 'none';
+    btn.textContent = 'Reveal Bot Strategies';
+  }
+}
+
+function backToSetup() {
+  showScreen('screen-setup');
+  renderHistory();
+}
+
+// ═══════════════════════════════════════════
+//  SCOREBOARD / HISTORY
+// ═══════════════════════════════════════════
+function renderHistory() {
+  const container = document.getElementById('history-content');
+  if (history.length === 0) {
+    container.innerHTML = '<div class="history-empty">No games played yet.</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="scoreboard-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Players</th>
+          <th>Winner</th>
+          <th>Scores</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${history.map((h, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${new Date(h.date).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+            <td>${h.players.length}</td>
+            <td class="winner">${h.winner}</td>
+            <td>${h.players.map(p => `${p.name}: ${p.score >= 0 ? '+' : ''}${p.score}`).join(', ')}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function clearHistory() {
+  if (!confirm('Clear all game history?')) return;
+  history = [];
+  localStorage.removeItem('hdg_history');
+  renderHistory();
+}
+
+// ═══════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+syncSetupUI();
+</script>
+
+</body>
+</html>
